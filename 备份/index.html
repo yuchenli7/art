@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>李昱辰 Yuchen Li</title> <style>
+        /* ==========================================================================
+           1. 全局极简主义基础样式与最高级别版权防护
+           ========================================================================== */
+        * {
+            box-sizing: border-box; /* 保证所有元素的边框和内边距不撑破设定好的容器宽度 */
+            margin: 0;             /* 清除所有浏览器默认外边距 */
+            padding: 0;            /* 清除所有浏览器默认内边距 */
+        }
+
+        body {
+            /* 采用现代系统无衬线字体族，营造高古轩、卓纳等顶级美术馆的绝对理性冷淡感 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #ffffff; /* 顶级美术馆纯白底色 */
+            color: #111111;            /* 全局文字颜色，微弱灰黑比纯黑更具高级视觉质感 */
+            line-height: 1.6;          /* 文本行高 */
+            -webkit-font-smoothing: antialiased; /* 让字体在 Retina 屏幕上显示得更细腻锐利 */
+            overflow-x: hidden;        /* 禁止横向滚动条，防止页面排版错位 */
+            
+            /* 【版权防护核心】全局禁用文本选择、蓝光高亮与长按拖拽 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none; /* 禁用 iOS 长按弹出保存图片菜单 */
+        }
+
+        /* 【版权防护】锁定所有多媒体元素，全面剥离右键和拖拽反馈 */
+        img, video, iframe {
+            pointer-events: none; /* 让鼠标事件直接穿透，使其无法被右键另存为，无法长按，无法拖拽 */
+            -webkit-user-drag: none; /* 彻底摧毁网页图片的鼠标拖拽提取功能 */
+        }
+
+        /* 恢复链接的点击权限 */
+        a {
+            color: inherit;         /* 继承父级文字颜色 */
+            text-decoration: none;  /* 斩断所有下划线，保持视觉绝对干净 */
+            cursor: pointer;        /* 鼠标移上去变成画廊标准的精准手型 */
+            pointer-events: auto;   /* 确保链接本身的点击功能不受全局防下载穿透的影响 */
+        }
+
+        /* 纯 CSS 路由核心开关：隐藏所有的单选状态触发器 */
+        .state-trigger {
+            display: none; /* 隐藏这些单选框，不影响视觉 */
+        }
+
+        /* ==========================================================================
+           2. 顶部栏 (Header) 与大标题样式（完全保留不更改）
+           ========================================================================== */
+        header {
+            position: fixed; /* 固定在顶部，不随页面滚动而位移 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;    /* 顶部导航区域的固定高度 */
+            padding: 0 40px; /* 左右两侧留白 40px */
+            display: flex;
+            justify-content: space-between; /* 名字绝对靠左，BIO/CONTACT绝对靠右 */
+            align-items: center;
+            background-color: #ffffff; /* 纯白背景，遮挡滚动内容 */
+            z-index: 1000;   /* 层级设定为1000，确保永远浮在所有画作和灯箱的最上方 */
+        }
+
+        .logo {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-size: 20px;            /* 克制的艺术字号，字越小越高级 */
+            font-weight: 500;           /* 中等字重 */
+            letter-spacing: 2px;         /* 字间距大幅拉开，呼吸感扑面而来 */
+            text-transform: uppercase;   /* 英文部分自动强制转换为全大写 */
+        }
+
+        .top-nav label {
+            font-size: 13px;             /* 极小字号 */
+            margin-left: 30px;          /* 按钮之间的水平间距 */
+            letter-spacing: 1.5px;       /* 字间距拉开 */
+            cursor: pointer;
+            text-transform: uppercase;   /* 强制大写 */
+            transition: opacity 0.2s;    /* 丝滑的淡入淡出过渡 */
+        }
+
+        .top-nav label:hover {
+            opacity: 0.4; /* 鼠标悬停时变成极淡的半透明 */
+        }
+
+        /* ==========================================================================
+           3. 左侧固定侧边栏布局 (Sidebar) —— 完美契合最新指定列表和顺序规范
+           ========================================================================== */
+        aside {
+            position: fixed; /* 固定在左侧，不随滚动条移动 */
+            top: 140px;      /* 距离顶部留出空间，避免与大标题 Header 挤在一起 */
+            left: 40px;      /* 距离左侧边缘 40px */
+            width: 240px;    /* 侧边栏宽度 */
+            z-index: 900;    /* 层级略低于 Header */
+        }
+
+        .side-nav li {
+            list-style: none;    /* 砍掉列表默认的黑点 */
+            margin-bottom: 16px; /* 每个菜单分类之间的垂直间距。若觉得太挤可以改大此值 */
+        }
+
+        .side-nav li label {
+            font-size: 13px;             /* 理性小字号 */
+            letter-spacing: 1px;         /* 舒适字间距 */
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: inline-block;
+        }
+
+        .side-nav li label:hover {
+            opacity: 0.4; /* 鼠标悬停变淡 */
+        }
+
+        /* ==========================================================================
+           4. 主内容舞台区容器 (Main Content Area)
+           ========================================================================== */
+        main {
+            margin-top: 140px;   /* 顶部的物理留白高度，完美对齐侧边栏 */
+            margin-left: 320px;  /* 左侧精准预留 320px 轨道，防止右侧内容遮挡住左边栏 */
+            padding-right: 60px; /* 右侧边缘大呼吸感留白 */
+            padding-bottom: 80px; /* 留出充分空间给底部的版权字 */
+            min-height: calc(100vh - 220px); /* 动态撑高，保证页面内容不足时版权字也能完美贴底 */
+            position: relative;
+        }
+
+        /* 每一个单独的页面容器通用样式 */
+        .view-content {
+            display: none; /* 【核心开关】：默认全部隐藏，由下方单选框状态机静态联动控制 */
+            animation: containerFadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; /* 高精密淡入动效 */
+        }
+
+        /* 切换菜单时的页面淡入动画效果 */
+        @keyframes containerFadeIn {
+            from { opacity: 0; transform: translateY(4px); } /* 从下方 4px 处极其微弱地浮现 */
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           5. 页面状态路由选择器 (纯 CSS 显隐联动状态机)
+           ========================================================================== */
+        /* 当对应的隐藏单选框被激活时，让右侧对应的 view-content 盒子立刻呈现出来 */
+        #tab-home:checked ~ main #view-home,
+        #tab-painting:checked ~ main #view-painting,
+        #tab-whataday:checked ~ main #view-whataday,
+        #tab-plop:checked ~ main #view-plop,
+        #tab-untitled2:checked ~ main #view-untitled2,
+        #tab-untitled1:checked ~ main #view-untitled1,
+        #tab-sweeping:checked ~ main #view-sweeping,
+        #tab-nessundorma:checked ~ main #view-nessundorma,
+        #tab-treatme:checked ~ main #view-treatme,
+        #tab-about:checked ~ main #view-about,
+        #tab-contact:checked ~ main #view-contact {
+            display: block;
+        }
+
+        /* 当前激活选中的左侧菜单分类文字，强制转为 600 加粗并生成下划细线，给访客提供精准的方向感 */
+        #tab-painting:checked ~ aside .side-nav label[for="tab-painting"],
+        #tab-whataday:checked ~ aside .side-nav label[for="tab-whataday"],
+        #tab-plop:checked ~ aside .side-nav label[for="tab-plop"],
+        #tab-untitled2:checked ~ aside .side-nav label[for="tab-untitled2"],
+        #tab-untitled1:checked ~ aside .side-nav label[for="tab-untitled1"],
+        #tab-sweeping:checked ~ aside .side-nav label[for="tab-sweeping"],
+        #tab-nessundorma:checked ~ aside .side-nav label[for="tab-nessundorma"],
+        #tab-treatme:checked ~ aside .side-nav label[for="tab-treatme"] {
+            font-weight: 600;
+            border-bottom: 1px solid #111111;
+        }
+
+        /* ==========================================================================
+           6. 画廊绝对不裁剪弹性网格系统（一行3幅/2幅，纯净完整展示原图）
+           ========================================================================== */
+        .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 严格限制画廊标准：一行3列 */
+            gap: 50px 40px; /* 间距控制：上下行距 50px，左右列距 40px。可根据喜好微调 */
+            width: 100%;
+            align-items: end; /* 【不裁剪核心】：让图片在底部对齐线自然排开，极度舒适极简 */
+            margin-bottom: 40px; /* 组与组之间的下留白 */
+        }
+
+        /* 四宫格专用样式：应用于 Untitled 1、Untitled 2、Plop 等一行两幅的页面 */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 严格限制：一行2列 */
+            gap: 50px 40px; /* 上下行距 50px，左右列距 40px */
+            width: 100%;
+            max-width: 1100px; /* 适当限制两列网格的最大总宽度，防止在大屏幕上图片被撑得过大 */
+            align-items: end; /* 底部基准线对齐，绝不裁切原图 */
+            margin-bottom: 40px;
+        }
+
+        /* 分组小标题：用于优雅标示横图、竖图区域 */
+        .grid-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #999999;
+            margin: 40px 0 20px 0;
+            width: 100%;
+            border-bottom: 1px dashed #eaeaea; /* 极其微弱的虚线分割线 */
+            padding-bottom: 6px;
+        }
+
+        .gallery-item {
+            display: block;
+            position: relative; /* 为防下载透明保护罩提供绝对定位基准 */
+            width: 100%;
+        }
+
+        .image-container {
+            width: 100%;
+            background-color: #ffffff; /* 彻底剔除有色背景，回归纯白绝对冷淡 */
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 14px; /* 缩略图与下方作品标题字之间的物理距离 */
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto; /* 【不裁剪核心】：高度随原图比例自动延展，绝对不破坏、不裁剪原画的任何边缘 */
+            display: block;
+            transition: opacity 0.2s ease; 
+        }
+
+        .gallery-item:hover .image-container img {
+            opacity: 0.7; /* 悬停时稍微变淡，呈现绝对理性的冷淡反馈 */
+        }
+
+        /* 【核心版权防护盾】全透明高空阻隔层：全面覆盖在缩略图片或轮播正上方 */
+        /* 修复：必须确保其放在 A 标签内部，并且 z-index 处于图片之上、控制按钮之下 */
+        .protector {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;                     /* 确保浮在图片的最上方 */
+            background-color: rgba(0,0,0,0); /* 绝对全透明 */
+        }
+
+        .item-title {
+            font-size: 13px;
+            font-style: italic; /* 当代艺术国际规范：作品名、标题等采用标准斜体 */
+            color: #111111;
+            margin-bottom: 2px;
+        }
+
+        .item-meta {
+            font-size: 12px;
+            color: #888888; /* 媒介、尺寸、年份等使用次要灰色标注 */
+        }
+
+        /* ==========================================================================
+           7. 纵向中轴精编排版（用于行为艺术、雕塑视频及多图垂直串联混排）
+           ========================================================================== */
+        .center-narrative-layout {
+            max-width: 850px; /* 国际画廊通用的黄金视线阅读宽度 */
+            margin: 0 auto;   /* 整体在中轴线完美居中 */
+        }
+
+        .vertical-image-group {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;    
+            gap: 40px;              /* 多图纵向串联时，图片与图片之间的上下垂直空隙 */
+            width: 100%;
+            margin-top: 40px;       
+        }
+
+        .vertical-image-item {
+            position: relative;     
+            width: 100%;
+            max-width: 750px;       /* 限制长条混排中，单张大图的横向最大视觉宽度 */
+        }
+
+        .vertical-image-item img {
+            width: 100%;
+            height: auto;           /* 保持原图纵横比，不发生任何裁切 */
+            display: block;
+        }
+
+        .top-mini-spec {
+            font-size: 12px;
+            color: #888888;
+            letter-spacing: 1.5px;   /* 字间距大范围拉开，极具呼吸感 */
+            text-transform: uppercase;/* 英文自动强制转换为全大写 */
+            margin-bottom: 30px;
+            text-align: left; 
+        }
+
+        .bottom-description {
+            font-size: 13px;
+            color: #444444;
+            line-height: 1.8;
+            max-width: 750px;
+            text-align: left;
+            margin: 30px 0 40px 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* YouTube 极简自适应嵌入外壳 */
+        .youtube-embed-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9; /* 锁定 16:9 国际视频工业标准比例 */
+            background-color: #000000; /* 视频未加载出来时的纯黑底色底块 */
+            margin-bottom: 40px;
+        }
+
+        .youtube-embed-box iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none; /* 砍掉一切边框 */
+            pointer-events: auto; /* 【注意】：必须允许鼠标事件，否则用户在网页上将无法点击播放视频 */
+        }
+
+        /* ==========================================================================
+           8. “图片方案1”高级 JavaScript 驱动全自动无感轮播盒子样式
+           ========================================================================== */
+        .scheme1-slider-box {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* 首页大轮播横向最大视觉广度 */
+            aspect-ratio: 3 / 2; /* 锁定黄金相幅比例，如有特殊需求可自行修改例如 4/3 */
+            margin: 40px auto 50px auto;
+            background-color: #ffffff;
+            overflow: hidden; /* 隐藏超出边界的其它图片单元 */
+        }
+
+        .scheme1-slider-inner {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* 理性、迅速且高级的横向切图滑动平移 */
+        }
+
+        .scheme1-slide {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .scheme1-slide a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .scheme1-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 【核心防护】：保证首页展示的各项目原图完整包裹，绝不发生一丝边缘裁剪 */
+        }
+
+        /* ==========================================================================
+           9. 跨页面双轨全屏放大浏览灯箱机制 (Lightbox Modals Base)
+           ========================================================================== */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* 极致白的全屏背景色，营造当代顶级艺术空间的白墙展厅纯净感 */
+            z-index: 2000;             /* 超高层级，绝对覆盖在网页结构（包括Header和Sidebar）之上 */
+            display: none;             /* 默认不开启 */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 状态触发：当页面 URL 产生的锚点 Hash（如 #lg-home1）完美匹配到对应灯箱的 id 时，激活显现 */
+        .lightbox-overlay:target {
+            display: flex; /* 激活显示 */
+        }
+
+        .lightbox-wrapper {
+            position: relative;
+            max-width: 85vw;  /* 限制全屏放大图的宽度不得超出屏幕横向的 85% */
+            max-height: 85vh; /* 限制全屏放大图的高度不得超出屏幕纵向的 85% */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-wrapper img {
+            max-width: 100%;
+            max-height: 72vh; /* 给底部弹出的年份作品详情小字留出充足、体面的物理呼吸空间 */
+            object-fit: contain; /* 放大观看时更是百分之百不允许裁剪图片 */
+        }
+
+        /* 全屏放大状态下，正下方的作品详情小字区域 */
+        .lightbox-caption {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+            animation: captionFadeUp 0.3s ease forwards; /* 文字伴随微弱上浮浮现 */
+        }
+
+        @keyframes captionFadeUp {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 全屏放大模式下的极细线箭头控制图标按钮 */
+     /* 修改部分：将箭头定位在全屏层上，而非图片容器上 */
+.lightbox-btn {
+    position: fixed; /* 改为 fixed，相对于窗口定位 */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2010;
+    font-size: 40px;
+    opacity: 0.2;
+    cursor: pointer;
+    padding: 20px; /* 增加点击范围 */
+}
+
+.lightbox-prev { left: 40px; }  /* 固定在屏幕左侧 40px */
+.lightbox-next { right: 40px; } /* 固定在屏幕右侧 40px */
+.lightbox-close { 
+    position: fixed; 
+    top: 30px; 
+    right: 40px; 
+}
+
+        /* 学术简历页与联系页面段落控制 */
+        .text-page { max-width: 650px; }
+        .text-page p { font-size: 13px; color: #333333; margin-bottom: 20px; letter-spacing: 0.5px; }
+
+        /* ==========================================================================
+           10. 专属首页（Home）固定贴底版权物理声明 (Footer) 智能路由显隐控制
+           ========================================================================== */
+        footer {
+            position: absolute; /* 绝对定位贴底 */
+            bottom: 20px;       /* 距离主内容区最下方 20px */
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            pointer-events: none; /* 彻底防止误触 */
+            display: none;       /* 【核心默认】：默认全部隐藏，仅在首页单选框选中时才显示 */
+        }
+        
+        /* 💡 特殊联动选择器：当且仅当首页面板 #tab-home 被 :checked 激活时，才让同级 main 容器内的 footer 显现出来 */
+        #tab-home:checked ~ main footer {
+            display: block; 
+        }
+        
+        .copyright-text {
+            font-size: 11px;
+            color: #aaaaaa; /* 极致淡雅、克制的浅灰色保护小字 */
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================================================
+           11. 终极响应式移动端断点物理适配 (Responsive Mobile Logic)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            header {
+                padding: 0 20px;
+                height: 60px; /* 手机端顶部稍微收窄 */
+            }
+            .logo { font-size: 16px; } /* 缩小手机端名字号 */
+            .top-nav label { margin-left: 15px; font-size: 12px; }
+
+            aside {
+                position: relative; /* 手机端侧边栏释放固定轨道，演变为优雅的流式置顶横排布局 */
+                top: 80px;
+                left: 0;
+                width: 100%;
+                padding: 0 20px;
+                margin-bottom: 40px;
+                z-index: 800;
+            }
+            .side-nav ul {
+                display: flex;
+                flex-wrap: wrap; /* 手机端横向自然打散排开，防止文字挤出屏幕边缘 */
+                gap: 10px 15px;  /* 调整手机端菜单项之间的左右、上下间距 */
+            }
+            .side-nav li { margin-bottom: 0; }
+
+            main {
+                margin-top: 100px;
+                margin-left: 0; /* 手机端斩断左边距轨道，给整网格腾出全屏展示空间 */
+                padding: 0 20px 100px 20px;
+            }
+
+            .grid-3col, .grid-2col {
+                grid-template-columns: 1fr; /* 手机端全部强制缩减为一列大图流，极佳视觉自适应 */
+                gap: 40px 0;
+            }
+
+            /* 手机端放大浏览灯箱样式优化 */
+            .lightbox-wrapper { max-width: 92vw; }
+            .lightbox-wrapper img { max-height: 65vh; }
+            .lightbox-btn { font-size: 30px; opacity: 0.4; } /* 手机端适当提高控制箭头常驻可见度 */
+            .lightbox-prev { left: -35px; } /* 缩窄两侧箭头悬空距离 */
+            .lightbox-next { right: -35px; }
+            .lightbox-close { top: -50px; right: 10px; }
+            
+            #tab-home:checked ~ main footer {
+                position: relative; /* 手机端跟随在长流瀑布最下方即可，防止重叠 */
+                margin-top: 40px;
+                bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <input type="radio" name="site-route" id="tab-home" class="state-trigger" checked> <input type="radio" name="site-route" id="tab-painting" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-whataday" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-plop" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-untitled2" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-untitled1" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-sweeping" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-nessundorma" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-treatme" class="state-trigger">
+    
+    <input type="radio" name="site-route" id="tab-about" class="state-trigger">
+    <input type="radio" name="site-route" id="tab-contact" class="state-trigger">
+
+    <header>
+        <div class="logo">
+            <label style="cursor:pointer; font-family: inherit; font-weight: inherit;" for="tab-home">
+                李昱辰 Yuchen Li
+            </label>
+        </div>
+        <nav class="top-nav">
+            <label for="tab-about">BIO</label>
+            <label for="tab-contact">CONTACT</label>
+        </nav>
+    </header>
+
+    <aside>
+        <nav class="side-nav">
+            <ul>
+                <li><label for="tab-painting">Painting</label></li>
+                <li><label for="tab-whataday">What a day</label></li>
+                <li><label for="tab-plop">Plop</label></li>
+                <li><label for="tab-untitled2">Untitled 2, 2024</label></li>
+                <li><label for="tab-untitled1">Untitled 1, 2024</label></li>
+                <li><label for="tab-sweeping">Sweeping Sand on the Beach</label></li>
+                <li><label for="tab-nessundorma">Nessun Dorma</label></li>
+                <li><label for="tab-treatme">Treat me gently</label></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+
+        <div class="view-content" id="view-home">
+            <div class="scheme1-slider-box" id="home-auto-engine" data-delay="7000">
+                <div class="scheme1-slider-inner">
+                    <div class="scheme1-slide"><a href="#lg-home1"><div class="protector"></div><img src="图片/ND1.jpg"></a></div>
+                    <div class="scheme1-slide"><a href="#lg-home2"><div class="protector"></div><img src="图片/TMG0.jpg"></a></div>
+                    <div class="scheme1-slide"><a href="#lg-home3"><div class="protector"></div><img src="图片/untitled 7.jpg"></a></div>
+                    <div class="scheme1-slide"><a href="#lg-home4"><div class="protector"></div><img src="图片/WAD1.jpg"></a></div>
+                    <div class="scheme1-slide"><a href="#lg-home5"><div class="protector"></div><img src="图片/UT1.jpg"></a></div>
+                    <div class="scheme1-slide"><a href="#lg-home6"><div class="protector"></div><img src="图片/UTT1.jpg"></a></div>
+                    <div class="scheme1-slide"><a href="#lg-home7"><div class="protector"></div><img src="图片/PL4.jpg"></a></div>
+                    <div class="scheme1-slide"><a href="#lg-home8"><div class="protector"></div><img src="图片/stand up!.jpg"></a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" id="view-painting">
+            
+            
+            <div class="grid-3col">
+                <a href="#pt-su" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/stand up!.jpg"></div><div class="item-title">Stand up!</div><div class="item-meta">Oil on canvas, 2026, 30 x 24 cm</div></a>
+                <a href="#pt-aimr" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/alone in my room.jpg"></div><div class="item-title">Alone in my room</div><div class="item-meta">Oil on canvas, 2026, 25 x 25 cm</div></a>
+                <a href="#pt-wil" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/where is love.jpg"></div><div class="item-title">Where is love</div><div class="item-meta">Oil on canvas, 2026, 60 x 40 cm</div></a>
+                <a href="#pt-ut7" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/untitled 7.jpg"></div><div class="item-title">Untitled 7</div><div class="item-meta">Oil on canvas, 2026, 30 x 24 cm</div></a>
+                <a href="#pt-ut6" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/untitled 6.jpg"></div><div class="item-title">Untitled 6</div><div class="item-meta">Oil on canvas, 2026, 30 x 24 cm</div></a>
+                <a href="#pt-ut5" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/untitled 5.jpg"></div><div class="item-title">Untitled 5</div><div class="item-meta">Oil on canvas, 2026, 24 x 30 cm</div></a>
+                <a href="#pt-ut4" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/untitled 4.jpg"></div><div class="item-title">Untitled 4</div><div class="item-meta">Oil on canvas, 2025, 20 x 30 cm</div></a>
+                <a href="#pt-ut3" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/untitled 3.jpg"></div><div class="item-title">Untitled 3</div><div class="item-meta">Oil on canvas, 2025, 25 x 25 cm</div></a>
+                <a href="#pt-ut2" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/untitled 2.jpg"></div><div class="item-title">Untitled 2</div><div class="item-meta">Acrylic on board, 2024, 10.5 x 14.5 cm</div></a>
+                <a href="#pt-ut1" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/untitled 1.jpg"></div><div class="item-title">Untitled 1</div><div class="item-meta">Acrylic on board, 2024, 15 x 15 cm</div></a>
+               
+            </div>
+
+        </div>
+
+        <div class="view-content" id="view-whataday">
+            <div class="center-narrative-layout" style="max-width:100%;">
+                <div class="top-mini-spec">2025, Sculpture</div>
+                
+               
+                <div class="grid-2col">
+                    <a href="#wad-lg1" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD1.jpg"></div></a>
+                    <a href="#wad-lg2" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD2.jpg"></div></a>
+                    <a href="#wad-lg5" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD5.jpg"></div></a>
+                    <a href="#wad-lg6" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD6.jpg"></div></a>
+                   
+                </div>
+
+                
+                <div class="grid-2col">
+                    <a href="#wad-lg3" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD3.jpg"></div></a>
+                    <a href="#wad-lg4" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD4.jpg"></div></a>
+                    <a href="#wad-lg7" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD7.jpg"></div></a>
+                    <a href="#wad-lg8" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/WAD8.jpg"></div></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" id="view-plop">
+            <div class="center-narrative-layout" style="max-width:100%;">
+                <div class="top-mini-spec" style="max-width:1100px; margin:0 auto 30px auto;">2025, Sculpture</div>
+                <div class="youtube-embed-box" style="max-width:1100px; margin:0 auto 40px auto;">
+                    <iframe src="https://www.youtube.com/embed/FRerfHvveb4?rel=0&modestbranding=1" allowfullscreen></iframe>
+                </div>
+                <div class="grid-2col" style="margin: 0 auto;">
+                    <a href="#pl-lg1" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/PL1.jpg"></div></a>
+                    <a href="#pl-lg2" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/PL2.jpg"></div></a>
+                    <a href="#pl-lg3" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/PL3.jpg"></div></a>
+                    <a href="#pl-lg4" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/PL4.jpg"></div></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" id="view-untitled2">
+            <div class="center-narrative-layout" style="max-width:100%;">
+                <div class="top-mini-spec" style="max-width:1100px; margin:0 auto 30px auto;">2024, Sculpture</div>
+                <div class="grid-2col" style="margin: 0 auto;">
+                    <a href="#utt-lg1" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UTT1.jpg"></div></a>
+                    <a href="#utt-lg2" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UTT2.jpg"></div></a>
+                    <a href="#utt-lg3" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UTT3.jpg"></div></a>
+                    <a href="#utt-lg4" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UTT4.jpg"></div></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" id="view-untitled1">
+            <div class="center-narrative-layout" style="max-width:100%;">
+                <div class="top-mini-spec" style="max-width:1100px; margin:0 auto 30px auto;">2024, Performance</div>
+                <div class="youtube-embed-box" style="max-width:1100px; margin:0 auto 40px auto;">
+                    <iframe src="https://www.youtube.com/embed/rmWPtbo7a2Y?rel=0&modestbranding=1" allowfullscreen></iframe>
+                </div>
+                <div class="grid-2col" style="margin: 0 auto;">
+                    <a href="#ut-lg1" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UT1.jpg"></div></a>
+                    <a href="#ut-lg2" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UT2.jpg"></div></a>
+                    <a href="#ut-lg3" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UT3.jpg"></div></a>
+                    <a href="#ut-lg4" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/UT4.jpg"></div></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" id="view-sweeping">
+            <div class="center-narrative-layout">
+                <div class="top-mini-spec">2023, Performance</div>
+                <div class="youtube-embed-box">
+                    <iframe src="https://www.youtube.com/embed/YDRx0tkKa7s?rel=0&modestbranding=1" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+       <div class="view-content" id="view-nessundorma">
+    <div class="center-narrative-layout" style="max-width:850px; margin:0 auto;">
+        
+        <div class="top-mini-spec" style="margin-bottom: 30px;">2023, Video</div>
+        
+        <div class="youtube-embed-box" style="margin-bottom: 40px;">
+            <iframe src="https://www.youtube.com/embed/Iyf_T3s58uU?rel=0&modestbranding=1" allowfullscreen></iframe>
+        </div>
+        
+        <div class="bottom-description" style="margin-bottom: 50px;">
+           
+        </div>
+
+        <div class="grid-2col" style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <a href="#nd-lg2" class="gallery-item" style="display: block;">
+                <div class="image-container"><div class="protector"></div><img src="图片/ND2.jpg" style="display: block; width: 100%;"></div>
+            </a>
+            <a href="#nd-lg3" class="gallery-item" style="display: block;">
+                <div class="image-container"><div class="protector"></div><img src="图片/ND3.jpg" style="display: block; width: 100%;"></div>
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+
+   <div class="view-content" id="view-treatme">
+    <div class="center-narrative-layout" style="max-width:900px; margin:0 auto;">
+        
+        <div class="top-mini-spec" style="margin-bottom: 20px;">2021-2023, Photography</div>
+        
+        <div class="bottom-description" style="margin-bottom: 40px;">
+            
+        </div>
+        
+        <div class="grid-2col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; margin: 0; padding: 0;">
+            <a href="#tmg-lg4" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG4.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg3" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG3.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg6" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG6.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg8" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG8.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg5" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG5.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg1" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG1.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg2" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG2.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg10" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG10.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg0" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG0.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg7" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG7.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg9" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG9.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg11" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG11.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg12" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG12.jpg" style="display:block; width:100%;"></div></a>
+            <a href="#tmg-lg13" class="gallery-item"><div class="image-container"><div class="protector"></div><img src="图片/TMG13.jpg" style="display:block; width:100%;"></div></a>
+        </div>
+        
+    </div>
+</div>
+        <div class="view-content" id="view-about">
+            <div class="text-page">
+                <h3 style="font-size: 11px; letter-spacing: 2px; font-weight: 400; color: #888888; text-transform: uppercase; margin-bottom: 35px;">ABOUT</h3>
+                <p>Yuchen Li (b. 2000, China) is an artist base in Shenzhen / Shanghai. He received his BFA in Photography from the Communication University of China and completed his MFA at the Slade School of Fine Art, University College London.</p>
+                <p>His practice spans painting, photography, performance, sculpture, and sound. His earlier works were heavily influenced by philosophy and psychoanalysis, which later shifted towards somatic practices, institutional critique, and active re-engagements with everyday ordinary objects.</p>
+            </div>
+        </div>
+
+        <div class="view-content" id="view-contact">
+            <div class="text-page">
+                <h3 style="font-size: 11px; letter-spacing: 2px; font-weight: 400; color: #888888; text-transform: uppercase; margin-bottom: 35px;">CONTACT</h3>
+                <p>Email: <a href="mailto:lyc007298@gmail.com">lyc007298@gmail.com</a></p>
+                <p>Instagram: <a href="https://www.instagram.com/alaric_kk/" target="_blank">alaric_kk</a></p>
+            </div>
+        </div>
+
+        <footer>
+            <div class="copyright-text">Copyright © Yuchen Li. All rights reserved.</div>
+        </footer>
+
+    </main>
+
+    <div id="lg-home1" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home8" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/ND1.jpg"><div class="lightbox-caption"><div class="item-title">Nessun Dorma</div><div class="item-meta">2023</div></div><a href="#lg-home2" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="lg-home2" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home1" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/TMG0.jpg"><div class="lightbox-caption"><div class="item-title">Treat me gently</div><div class="item-meta">2021-2023</div></div><a href="#lg-home3" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="lg-home3" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home2" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 7.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 7</div><div class="item-meta">2026</div></div><a href="#lg-home4" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="lg-home4" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home3" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/WAD1.jpg"><div class="lightbox-caption"><div class="item-title">What a day</div><div class="item-meta">2025</div></div><a href="#lg-home5" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="lg-home5" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home4" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UT1.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 1, 2024</div><div class="item-meta">2024</div></div><a href="#lg-home6" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="lg-home6" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home5" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UTT1.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 2, 2024</div><div class="item-meta">2024</div></div><a href="#lg-home7" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="lg-home7" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home6" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/PL4.jpg"><div class="lightbox-caption"><div class="item-title">Plop</div><div class="item-meta">2025</div></div><a href="#lg-home8" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="lg-home8" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#lg-home7" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/stand up!.jpg"><div class="lightbox-caption"><div class="item-title">Stand up!</div><div class="item-meta">2026</div></div><a href="#lg-home1" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+
+    <div id="pt-su" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-ut1" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/stand up!.jpg"><div class="lightbox-caption"><div class="item-title">Stand up!</div><div class="item-meta">Oil on canvas, 2026, 30 x 24 cm</div></div><a href="#pt-aimr" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-aimr" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-su" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/alone in my room.jpg"><div class="lightbox-caption"><div class="item-title">Alone in my room</div><div class="item-meta">Oil on canvas, 2026, 25 x 25 cm</div></div><a href="#pt-wil" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-wil" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-aimr" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/where is love.jpg"><div class="lightbox-caption"><div class="item-title">Where is love</div><div class="item-meta">Oil on canvas, 2026, 60 x 40 cm</div></div><a href="#pt-ut7" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-ut7" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-wil" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 7.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 7</div><div class="item-meta">Oil on canvas, 2026, 30 x 24 cm</div></div><a href="#pt-ut6" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-ut6" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-ut7" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 6.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 6</div><div class="item-meta">Oil on canvas, 2026, 30 x 24 cm</div></div><a href="#pt-ut5" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-ut5" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-ut6" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 5.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 5</div><div class="item-meta">Oil on canvas, 2026, 24 x 30 cm</div></div><a href="#pt-ut4" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-ut4" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-ut5" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 4.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 4</div><div class="item-meta">Oil on canvas, 2025, 20 x 30 cm</div></div><a href="#pt-ut3" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-ut3" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-ut4" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 3.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 3</div><div class="item-meta">Oil on canvas, 2025, 25 x 25 cm</div></div><a href="#pt-ut2" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-ut2" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-ut3" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 2.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 2</div><div class="item-meta">Acrylic on board, 2024, 10.5 x 14.5 cm</div></div><a href="#pt-ut1" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pt-ut1" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pt-ut2" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/untitled 1.jpg"><div class="lightbox-caption"><div class="item-title">Untitled 1</div><div class="item-meta">Acrylic on board, 2024, 15 x 15 cm</div></div><a href="#pt-su" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+
+  <div id="wad-lg1" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg8" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD1.jpg"></div><a href="#wad-lg2" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="wad-lg2" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg1" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD2.jpg"></div><a href="#wad-lg5" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="wad-lg5" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg2" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD5.jpg"></div><a href="#wad-lg6" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="wad-lg6" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg5" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD6.jpg"></div><a href="#wad-lg3" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="wad-lg3" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg6" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD3.jpg"></div><a href="#wad-lg4" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="wad-lg4" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg3" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD4.jpg"></div><a href="#wad-lg7" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="wad-lg7" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg4" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD7.jpg"></div><a href="#wad-lg8" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="wad-lg8" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#wad-lg7" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/WAD8.jpg"></div><a href="#wad-lg1" class="lightbox-btn lightbox-next">&#10095;</a></div>
+
+    <div id="pl-lg1" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pl-lg4" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/PL1.jpg"><a href="#pl-lg2" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pl-lg2" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pl-lg1" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/PL2.jpg"><a href="#pl-lg3" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pl-lg3" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pl-lg2" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/PL3.jpg"><a href="#pl-lg4" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="pl-lg4" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#pl-lg3" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/PL4.jpg"><a href="#pl-lg1" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+
+    <div id="utt-lg1" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#utt-lg4" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UTT1.jpg"><a href="#utt-lg2" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="utt-lg2" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#utt-lg1" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UTT2.jpg"><a href="#utt-lg3" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="utt-lg3" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#utt-lg2" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UTT3.jpg"><a href="#utt-lg4" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="utt-lg4" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#utt-lg3" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UTT4.jpg"><a href="#utt-lg1" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+
+    <div id="ut-lg1" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#ut-lg4" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UT1.jpg"><a href="#ut-lg2" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="ut-lg2" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#ut-lg1" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UT2.jpg"><a href="#ut-lg3" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="ut-lg3" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#ut-lg2" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UT3.jpg"><a href="#ut-lg4" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="ut-lg4" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#ut-lg3" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/UT4.jpg"><a href="#ut-lg1" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+
+    <div id="nd-lg2" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#nd-lg3" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/ND2.jpg"><a href="#nd-lg3" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+    <div id="nd-lg3" class="lightbox-overlay"><div class="lightbox-wrapper"><div class="protector"></div><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#nd-lg2" class="lightbox-btn lightbox-prev">&#10094;</a><img src="图片/ND3.jpg"><a href="#nd-lg2" class="lightbox-btn lightbox-next">&#10095;</a></div></div>
+
+  <div id="tmg-lg4" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg13" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG4.jpg"></div><a href="#tmg-lg3" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg3" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg4" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG3.jpg"></div><a href="#tmg-lg6" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg6" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg3" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG6.jpg"></div><a href="#tmg-lg8" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg8" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg6" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG8.jpg"></div><a href="#tmg-lg5" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg5" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg8" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG5.jpg"></div><a href="#tmg-lg1" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg1" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg5" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG1.jpg"></div><a href="#tmg-lg2" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg2" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg1" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG2.jpg"></div><a href="#tmg-lg10" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg10" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg2" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG10.jpg"></div><a href="#tmg-lg0" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg0" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg10" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG0.jpg"></div><a href="#tmg-lg7" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg7" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg0" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG7.jpg"></div><a href="#tmg-lg9" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg9" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg7" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG9.jpg"></div><a href="#tmg-lg11" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg11" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg9" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG11.jpg"></div><a href="#tmg-lg12" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg12" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg11" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG12.jpg"></div><a href="#tmg-lg13" class="lightbox-btn lightbox-next">&#10095;</a></div>
+<div id="tmg-lg13" class="lightbox-overlay"><a href="#" class="lightbox-btn lightbox-close">&times;</a><a href="#tmg-lg12" class="lightbox-btn lightbox-prev">&#10094;</a><div class="lightbox-wrapper"><img src="图片/TMG13.jpg"></div><a href="#tmg-lg4" class="lightbox-btn lightbox-next">&#10095;</a></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sliderBox = document.getElementById("home-auto-engine"); // 捕捉首页自动轮播的外壳
+            const sliderInner = sliderBox.querySelector(".scheme1-slider-inner"); // 捕捉滑动胶卷整轨
+            const slides = sliderInner.querySelectorAll(".scheme1-slide"); // 获取所有的幻灯片单页
+            const totalSlides = slides.length; // 总图数计数
+            
+            let currentIndex = 0; // 设置当前初始播放指针位置为0
+            let intervalId = null; // 初始化中央计时器
+            const delayTime = parseInt(sliderBox.getAttribute("data-delay")) || 7000; // 精准捕捉设定的 7 秒脉冲数据
+            let isLightboxOpen = false; // 用于标识当前用户是否点开了全屏大图
+
+            // 中央切图逻辑驱动函数
+            function goToSlide(index) {
+                if(index >= totalSlides) {
+                    currentIndex = 0; // 如果超出最后一张，归零回到最前方
+                } else if(index < 0) {
+                    currentIndex = totalSlides - 1; // 如果前滑透支，去往最后一张
+                } else {
+                    currentIndex = index; // 锁定目标位
+                }
+                // 通过 CSS3 矩阵位移，以 3D 硬件加速执行迅速、高级的高冷滑动过场
+                sliderInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            // 启动自动播放切换功能
+            function startAutoplay() {
+                // 当计时器未启动，且当前大图灯箱处于闭合状态时，允许起跑
+                if (intervalId === null && !isLightboxOpen) {
+                    intervalId = setInterval(function() {
+                        goToSlide(currentIndex + 1); // 开启自加 1 滑动
+                    }, delayTime);
+                }
+            }
+
+            // 终止自动播放切换功能
+            function stopAutoplay() {
+                if (intervalId !== null) {
+                    clearInterval(intervalId); // 强行摧毁原厂计时脉冲
+                    intervalId = null; // 清空指代
+                }
+            }
+
+            // 【联锁逻辑 1】：鼠标放在轮播图上时暂停，移开后继续自动切换
+            sliderBox.addEventListener("mouseenter", function() {
+                stopAutoplay(); // 鼠标移入，暂停
+            });
+            sliderBox.addEventListener("mouseleave", function() {
+                startAutoplay(); // 鼠标移走，原位恢复自动执行
+            });
+
+            // 【联锁逻辑 2】：全方位捕捉浏览器锚点（Hash）变换，监控灯箱大图的生死状态
+            window.addEventListener("hashchange", function() {
+                const currentHash = window.location.hash;
+                // 如果当前 URL 末尾包含非空锚点，证明用户点开了放大浏览图片，大图灯箱已被打开
+                if (currentHash && currentHash !== "#" && currentHash !== "") {
+                    isLightboxOpen = true; // 锁定状态
+                    stopAutoplay(); // 彻底剥离、全面强制熔断、暂停一切自动切换
+                } else {
+                    // 反之，如果 Hash 归零复原，意味着用户关掉了放大浏览
+                    isLightboxOpen = false; // 解锁状态
+                    startAutoplay(); // 立刻重新激活首页自动轮播
+                }
+            });
+
+            // 【初次初始化载入体检】：防止用户刷新网页时直接带锚点进入
+            if (window.location.hash && window.location.hash !== "#") {
+                isLightboxOpen = true; // 拦截
+                stopAutoplay(); // 挂起暂停
+            } else {
+                startAutoplay(); // 纯净载入，直接开跑
+            }
+        });
+    </script>
+
+</body>
+</html>
